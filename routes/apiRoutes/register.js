@@ -3,7 +3,6 @@ const registerRouter = express.Router();
 
 // Load input validation
 import validateRegisterInput from "../../validation/validate_Register.js";
-import validateLoginInput from "../../validation/validate_Login.js";
 
 // Load User model
 import userModel from "../../db_model.js";
@@ -16,6 +15,7 @@ registerRouter.post("/register", (req, res) => {
 
   // If any error exists in form
   if (!isValid) {
+    //these errors will be used in authActions axios req catch method
     return res.status(400).json(errors);
   }
 

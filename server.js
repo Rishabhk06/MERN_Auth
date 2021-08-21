@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.listen(5000, console.log("Server started at port 3000"));
+app.listen(5000, console.log("Server started at port 5000"));
 
 //Setting Mongo connection
 const atlasURL =
@@ -38,3 +38,7 @@ app.use("/api/users", loginRouter);
 
 //initialise passport
 app.use(passport.initialize());
+
+//
+import setupPassport from "./passport.js";
+setupPassport(passport);

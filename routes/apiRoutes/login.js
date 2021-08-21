@@ -15,6 +15,7 @@ import userModel from "../../db_model.js";
 // @access Public
 loginRouter.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
+  console.log("errors", errors);
 
   // Check validation
   if (!isValid) {
@@ -27,7 +28,7 @@ loginRouter.post("/login", (req, res) => {
   userModel.findOne({ email }).then((user) => {
     // Check if user exists in database
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" });
+      return res.status(404).json({ emailnotfound: "Email is not registered" });
     } else {
       // Check if the entered password matches pass in db
       if (user.password === password) {
@@ -35,7 +36,7 @@ loginRouter.post("/login", (req, res) => {
         // Create JWT Payload
         const jwt_payload = {
           id: user._id,
-          email: user.email,
+          name: user.name,
         };
 
         // Sign token
@@ -43,7 +44,7 @@ loginRouter.post("/login", (req, res) => {
           jwt_payload,
           "secret",
           {
-            expiresIn: 60, // 60sec = 1min
+            expiresIn: 10, // 10sec
           },
           (err, token) => {
             if (err) {
@@ -53,7 +54,6 @@ loginRouter.post("/login", (req, res) => {
                 success: true,
                 token: "Bearer " + token,
               });
-              console.log(token);
             }
           }
         );

@@ -1,25 +1,26 @@
 .flexbox-container {
-  padding: 100px;
+  padding: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .flexbox-item1 {
-  background: green;
-  height: 600px;
+  background-image: url(./cover_img.jpeg);
+  background-size: cover;
+  height: 700px;
   flex: 1.2;
 }
 
 .flexbox-item2 {
   background: white;
-  height: 600px;
+  height: 700px;
   flex: 2;
 }
 
 .top-bar {
   text-align: center;
-  background: tomato;
+  background: rgb(236, 51, 51);
   font-weight: bold;
   font-size: 40px;
   font-family: monospace;
@@ -33,10 +34,40 @@
   width: 80%;
   margin-top: 10px;
   margin-bottom: 10px;
+  text-indent: 30px;
+}
+
+.input-field-icon {
+  position: "absolute";
+  height: "5%";
+  color: grey;
+}
+
+.input-field.error {
+  border-bottom: 2px solid red;
+}
+
+.error-msg {
+  color: red;
+  font-size: 20px;
+  font-weight: 350;
 }
 
 .content-box {
-  margin: 80px;
+  margin: 50px 0 0 80px;
+}
+
+.content-box-landing {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.sub-heading {
+  font-family: "Courier New", Courier, monospace;
+  margin-block-start: 50px;
+  color: rgb(29, 29, 148);
 }
 
 .login-button {
@@ -48,7 +79,88 @@
   margin-block: 30px;
 }
 
+.login-button.error {
+  margin-block: 0;
+}
+
+.landing-button {
+  width: 40%;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: inherit;
+  margin: 20px;
+  cursor: grab;
+}
+
 .redirect-btn {
+  color: rgb(55, 89, 184);
   text-decoration: underline;
   cursor: grab;
+}
+
+.redirect-btn.home {
+  width: 80%;
+  text-align: end;
+  margin: 0;
+}
+
+.create-acc-heading {
+  margin-block-start: 0;
+}
+
+.dashboard-bkg {
+  background: hotpink;
+}
+
+.cover-heading {
+  color: white;
+  text-align: center;
+  text-decoration: underline 2px;
+}
+
+.marquee-box {
+  /* default width: 100%; */
+  /* height: max-content; */
+  background: black;
+  color: white;
+  overflow: hidden;
+}
+
+.marquee-content {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  animation: slideShow 10s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.marquee-content li {
+  /* height is controlled only here */
+  height: 100px;
+  width: 25%;
+  flex-shrink: 0;
+}
+
+.icons {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes slideShow {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    /* 8li elem * 25%width = 200% */
+    transform: translate(-200%, 0);
+  }
+}
+
+.duplicate {
+  background: teal;
 }

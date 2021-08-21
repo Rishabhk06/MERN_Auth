@@ -1,5 +1,5 @@
 import Validator from "validator";
-import isEmpty from "is-empty";
+import { isEmpty } from "lodash-es";
 
 //we need to ensure the form input received from form submission(frontend) are valid
 
