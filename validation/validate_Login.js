@@ -1,5 +1,5 @@
 import Validator from "validator";
-import isEmpty from "is-empty";
+import { isEmpty } from "lodash-es";
 
 const validateLoginInput = (data) => {
   let errors = {};
@@ -10,12 +10,14 @@ const validateLoginInput = (data) => {
 
   // Email checks
   if (Validator.isEmpty(data.email)) {
+    console.log("emailis", data.email);
     errors.email = "Email field is required";
   } else if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
   // Password checks
   if (Validator.isEmpty(data.password)) {
+    console.log("passwordis", data.password);
     errors.password = "Password field is required";
   }
   return {
