@@ -10,9 +10,8 @@ const jwtStrategy = passport.Strategy;
 const extractJWT = passport.ExtractJwt;
 
 const options = {
-  jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: extractJWT.fromAuthHeaderWithScheme("JWT"),
   secretOrKey: "secret",
-  issuer: "admin_rishabh",
 };
 console.log("options", options.jwtFromRequest);
 

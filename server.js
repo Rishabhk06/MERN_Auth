@@ -37,8 +37,17 @@ app.use("/api/users", registerRouter);
 app.use("/api/users", loginRouter);
 
 //initialise passport
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 //
 import setupPassport from "./passport.js";
 setupPassport(passport);
+
+//
+app.get(
+  "/api/users/login/1",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.status(200).json({ success: true, msg: "you are authorized !!!" });
+  }
+);

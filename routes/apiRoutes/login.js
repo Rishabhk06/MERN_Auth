@@ -44,15 +44,15 @@ loginRouter.post("/login", (req, res) => {
           jwt_payload,
           "secret",
           {
-            expiresIn: 10, // 10sec
+            expiresIn: 30, // 30sec
           },
           (err, token) => {
             if (err) {
               console.log(err);
             } else {
-              res.json({
+              res.status(200).json({
                 success: true,
-                token: "Bearer " + token,
+                token: "JWT " + token,
               });
             }
           }
