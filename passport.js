@@ -13,7 +13,6 @@ const options = {
   jwtFromRequest: extractJWT.fromAuthHeaderWithScheme("JWT"),
   secretOrKey: "secret",
 };
-console.log("options", options.jwtFromRequest);
 
 //now setting the passport strategy
 // The JWT payload received as header from login endpoint is passed into the verify callback
@@ -23,6 +22,15 @@ const setupPassport = (passport) => {
     //this callback func is called only when we use passport.authenticate() anywhere
     new jwtStrategy(options, function (jwt_payload, done) {
       console.log("setupPassport function called");
+      //if we reach here, jwt is successfully verified by passport
+
+      //now we need to return the user back to update global state
+      // therefore we use our db
+
+      //it also double checks the authorization. If i create a jwt from official
+      //website with same key..but with wrong 'id(jwt_payload.id)'
+      //authorization fails with error 500
+
       // We will assign the `id` property on the JWT to the database ID of user
       userModel
         .findById(jwt_payload.id)
@@ -34,12 +42,13 @@ const setupPassport = (passport) => {
             return done(null, user);
           } else {
             //no errors but user also does'nt exist
+            console.log("else condition called in passport.js then method");
             return done(null, false);
           }
         })
         .catch((err) => {
           done(err, false);
-          console.log(err);
+          console.log("catch err in passport.js", err);
         });
     })
   );

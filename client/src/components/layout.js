@@ -28,7 +28,8 @@ function Layout() {
             <Route exact path="/" component={LandingPage}></Route>
             <Route exact path="/login" component={Login}></Route>
             <Route exact path="/register" component={Register}></Route>
-            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+            {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
+            <Route exact path="/dashboard" component={Dashboard}></Route>
           </div>
         </div>
       </BrowserRouter>

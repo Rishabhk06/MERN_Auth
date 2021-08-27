@@ -34,7 +34,7 @@ class Register extends Component {
   }
 
   //To clear the global state errors
-  //while redirecting b/w login & register component
+  //while redirecting b/w components
   componentWillUnmount() {
     this.props.clearErrors();
   }
@@ -90,6 +90,9 @@ class Register extends Component {
             Back to Home
           </h3>
         </Link>
+        {!isUndefined(this.props.errors.displayMsg) && (
+          <div className="error-msg">*{this.props.errors.displayMsg}</div>
+        )}
         <h1 className="create-acc-heading">
           Create New Account
           <FaUserPlus style={{ marginInlineStart: "20px", height: "0.8em" }} />
@@ -186,7 +189,6 @@ const mapStateToProps = (state) => {
   console.log("state", state);
   return {
     authDetails: state.authDetails,
-    // user: state.user,
     errors: state.errors,
   };
 };
@@ -194,7 +196,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     registerUser: (param) => {
-      console.log("Newuser param: " + param.newUser);
       //here Register comp is wrapped in Route(layout.js)
       // and therefore has direct access to the browser history
       //no need of withRouter
