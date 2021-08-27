@@ -25,8 +25,9 @@ class Login extends Component {
   }
 
   //To clear the global state errors
-  //while redirecting b/w login & register component
+  //while redirecting b/w components
   componentWillUnmount() {
+    console.log("login comp unmounted: errors will be cleared now");
     this.props.clearErrors();
   }
 

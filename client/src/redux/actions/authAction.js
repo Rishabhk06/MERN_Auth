@@ -4,7 +4,6 @@ import { SET_CURRENT_USER, GET_ERRORS } from "./actionTypes";
 import setAuthToken from "../../setAuthToken";
 import jwt_decode from "jwt-decode";
 import store from "../store";
-import { Redirect } from "react-router-dom";
 
 //Register user axios req
 const registerUser = (userData, history) => {
@@ -15,7 +14,10 @@ const registerUser = (userData, history) => {
     axios
       .post("/api/users/register", userData)
       //re-direct to login on successful register
-      .then((res) => history.push("/login"))
+      .then((res) => {
+        console.log("register -> then res:", res);
+        history.push("/login");
+      })
       .catch((err) => {
         //err.response.data returns the error obj that we created in validations
         //standard way to catch axios errors (refer to axios docs)
@@ -32,7 +34,7 @@ const registerUser = (userData, history) => {
 };
 
 // Login - get user token
-const loginUser = (userData) => {
+const loginUser = (userData, history) => {
   return function (dispatch) {
     axios
       .post("/api/users/login", userData)
@@ -47,20 +49,21 @@ const loginUser = (userData) => {
         // Set token to Auth header with each req
         setAuthToken(token);
 
-        // Decode token to get user data
-        const decoded = jwt_decode(token);
+        //axios req to dashboard
+        axios
+          .get("/dashboard")
+          .then((res) => {
+            //set current user in reducer
+            console.log(res);
 
-        //set current user in reducer
-        dispatch({
-          type: SET_CURRENT_USER,
-          payload: decoded,
-        });
-
-        // clear the errors object from store if login is successful
-        dispatch({
-          type: GET_ERRORS,
-          payload: {},
-        });
+            //return an action and further redirect using Redirect or
+            //history.push from ComponentDidUpdate which checks global state
+            dispatch({
+              type: SET_CURRENT_USER,
+              payload: res.data.user,
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         dispatch({
@@ -85,6 +88,9 @@ const logoutUser = () => {
       type: SET_CURRENT_USER,
       payload: {},
     });
+
+    //redirect to '/login'
+    // history.push("/login");
   };
 };
 
@@ -97,31 +103,41 @@ const keepUserLoggedIn = () => {
 
     // Decode token to get user data
     const decoded = jwt_decode(token);
+    console.log(decoded.exp, Math.round(Date.now() / 1000));
 
-    //keep user set as current user in reducer
+    //check if the user is already logged in
+    axios
+      .get("/dashboard")
+      .then((res) => {
+        console.log("then res from keepUserLoggedIn", res);
 
-    //** here we need store.dispatch bcz in other actions we were
-    //binding components with mapDispatchToProps
-    //but here we need to call this action before component Layout renders **
-    store.dispatch({
-      type: SET_CURRENT_USER,
-      payload: decoded,
-    });
+        //keep user set as current user in reducer
 
-    //check for token expiry
-    const currentTime = Math.round(Date.now() / 1000);
-    console.log(decoded.exp, currentTime);
-    if (decoded.exp < currentTime) {
-      //token has expired; we need to log user out
-      console.log("token expired");
-      store.dispatch(logoutUser());
+        //** here we need store.dispatch bcz in other actions we were
+        //binding components with mapDispatchToProps
+        //but here we need to call this action before component Layout renders **
 
-      //send error as token expired
-      store.dispatch({
-        type: GET_ERRORS,
-        payload: { tokenExpired: "Session Timed Out. Please Login again" },
+        store.dispatch({
+          type: SET_CURRENT_USER,
+          payload: res.data.user,
+        });
+      })
+      .catch((err) => {
+        console.log("catch err in keepUserLoggedIn", err);
+
+        //passport automatically checks for token expiry
+        //we just need to remove it from localstorage
+        console.log("token expired");
+        store.dispatch(logoutUser());
+
+        //send error as token expired
+        store.dispatch({
+          type: GET_ERRORS,
+          payload: {
+            tokenExpired: "Token Expired or Invalid. Please Login again",
+          },
+        });
       });
-    }
   }
 };
 

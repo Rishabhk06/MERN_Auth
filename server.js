@@ -36,18 +36,33 @@ mongoose.connection
 app.use("/api/users", registerRouter);
 app.use("/api/users", loginRouter);
 
+//PASSPORT
+
 //initialise passport
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 //
 import setupPassport from "./passport.js";
 setupPassport(passport);
 
-//
+//dashboard further req check
 app.get(
   "/api/users/login/1",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.status(200).json({ success: true, msg: "you are authorized !!!" });
+  }
+);
+
+//Route to dashboard
+app.get(
+  "/dashboard",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.status(200).json({
+      success: true,
+      msg: "jwt verified using Passport",
+      user: req.user,
+    });
   }
 );
