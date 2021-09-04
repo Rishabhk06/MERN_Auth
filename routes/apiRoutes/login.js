@@ -2,7 +2,7 @@ import express from "express";
 const loginRouter = express.Router();
 
 //jsonwebtoken
-import jwt from "jsonwebtoken";
+import signJwtFunc from "../../signJwt.js";
 
 // Load input validation
 import validateLoginInput from "../../validation/validate_Login.js";
@@ -40,23 +40,18 @@ loginRouter.post("/login", (req, res) => {
         };
 
         // Sign token
-        jwt.sign(
-          jwt_payload,
-          "secret",
-          {
-            expiresIn: 30, // 30sec
-          },
-          (err, token) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.status(200).json({
-                success: true,
-                token: "JWT " + token,
-              });
-            }
-          }
-        );
+        //we can also use async/await here as in register route
+        //this is es6 method and that is es7method(better and easier)
+        signJwtFunc(jwt_payload)
+          .then((token) => {
+            res.status(200).json({
+              success: true,
+              token: "JWT " + token,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
         //password incorrect
         res.status(400).json({ passwordincorrect: "Password incorrect" });

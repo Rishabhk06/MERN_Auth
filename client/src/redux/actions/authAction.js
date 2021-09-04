@@ -4,6 +4,7 @@ import { SET_CURRENT_USER, GET_ERRORS } from "./actionTypes";
 import setAuthToken from "../../setAuthToken";
 import jwt_decode from "jwt-decode";
 import store from "../store";
+import handleJwt from "../../handleJwt.js";
 
 //Register user axios req
 const registerUser = (userData, history) => {
@@ -15,8 +16,8 @@ const registerUser = (userData, history) => {
       .post("/api/users/register", userData)
       //re-direct to login on successful register
       .then((res) => {
-        console.log("register -> then res:", res);
-        history.push("/login");
+        //we need to login user if registered successfully
+        handleJwt(dispatch, res);
       })
       .catch((err) => {
         //err.response.data returns the error obj that we created in validations
@@ -40,30 +41,7 @@ const loginUser = (userData, history) => {
       .post("/api/users/login", userData)
       //
       .then((res) => {
-        console.log("res.data from loginUser", res.data);
-
-        //save token to localstorage
-        const { token } = res.data;
-        localStorage.setItem("jwtToken", token);
-
-        // Set token to Auth header with each req
-        setAuthToken(token);
-
-        //axios req to dashboard
-        axios
-          .get("/dashboard")
-          .then((res) => {
-            //set current user in reducer
-            console.log(res);
-
-            //return an action and further redirect using Redirect or
-            //history.push from ComponentDidUpdate which checks global state
-            dispatch({
-              type: SET_CURRENT_USER,
-              payload: res.data.user,
-            });
-          })
-          .catch((err) => console.log(err));
+        handleJwt(dispatch, res);
       })
       .catch((err) => {
         dispatch({
@@ -82,7 +60,7 @@ const logoutUser = () => {
 
     // Remove auth header for future requests
     setAuthToken(false);
-
+    console.log("logoutUser");
     // Set current user to empty object which will set isAuthenticated to false
     dispatch({
       type: SET_CURRENT_USER,
@@ -109,8 +87,6 @@ const keepUserLoggedIn = () => {
     axios
       .get("/dashboard")
       .then((res) => {
-        console.log("then res from keepUserLoggedIn", res);
-
         //keep user set as current user in reducer
 
         //** here we need store.dispatch bcz in other actions we were
@@ -151,4 +127,29 @@ const clearErrors = () => {
   };
 };
 
-export { registerUser, loginUser, logoutUser, keepUserLoggedIn, clearErrors };
+const handleTokenExpiration = () => {
+  console.log("handleTokenExpiration called");
+  return function (dispatch) {
+    // this is to automatically logout the user on token expiry
+    //even w/o refreshing page
+    setTimeout(() => {
+      console.log("token is now expired");
+      logoutUser();
+      // dispatch({
+      //   type: GET_ERRORS,
+      //   payload: {
+      //     tokenExpired: "Token Expired or Invalid. Please Login again",
+      //   },
+      // });
+    }, 5000);
+  };
+};
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  keepUserLoggedIn,
+  clearErrors,
+  handleTokenExpiration,
+};
