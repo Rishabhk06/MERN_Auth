@@ -9,12 +9,13 @@ import store from "../redux/store";
 
 import Dashboard from "./dashboard";
 import ProtectedRoute from "./protectedRoute";
-import { handleTokenExpiration } from "../handleJwt";
-import { keepUserLoggedIn } from "../redux/actions/authAction";
+import {
+  handleTokenExpiration,
+  keepUserLoggedIn,
+} from "../redux/actions/authAction";
 
 //to keep user logged in even after refresh until he logs out or token expires
 keepUserLoggedIn();
-
 handleTokenExpiration();
 
 function Layout() {

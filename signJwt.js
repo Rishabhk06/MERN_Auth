@@ -10,7 +10,7 @@ const signJwtFunc = (jwt_payload) => {
       jwt_payload,
       "secret",
       {
-        expiresIn: 10, // 30sec
+        expiresIn: 30, // 30sec
       },
       (err, token) => {
         if (err) {

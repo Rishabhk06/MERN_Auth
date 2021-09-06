@@ -15,7 +15,6 @@ import userModel from "../../db_model.js";
 // @access Public
 loginRouter.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
-  console.log("errors", errors);
 
   // Check validation
   if (!isValid) {

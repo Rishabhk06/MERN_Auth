@@ -45,7 +45,6 @@ registerRouter.post("/register", (req, res) => {
 
           //call signJwtFunc
           const token = await signJwtFunc(jwt_payload);
-          console.log("func return:", token);
 
           res.status(200).json({
             success: true,
