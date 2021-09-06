@@ -6,6 +6,7 @@ import validateRegisterInput from "../../validation/validate_Register.js";
 
 // Load User model
 import userModel from "../../db_model.js";
+import signJwtFunc from "../../signJwt.js";
 
 // @route POST api/users/register
 // @desc Register user
@@ -32,7 +33,25 @@ registerRouter.post("/register", (req, res) => {
           email: req.body.email,
           password: req.body.password,
         })
-        .then((user) => res.send(user));
+        .then(async (user) => {
+          console.log("user created:", user);
+
+          //Direct push to dashboard when user registered successfully
+          // Create JWT Payload
+          const jwt_payload = {
+            id: user._id,
+            name: user.name,
+          };
+
+          //call signJwtFunc
+          const token = await signJwtFunc(jwt_payload);
+          console.log("func return:", token);
+
+          res.status(200).json({
+            success: true,
+            token: "JWT " + token,
+          });
+        });
     }
   });
 });

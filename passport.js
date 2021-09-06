@@ -1,8 +1,6 @@
 //setting up passport-jwt strategy
 //Note: yaha abhi sirf passport setup kr rhe h...jwt token baad mei login route se generate hoga
 //abhi sirf us token ko handle krne ka tareeka likh rhe h
-
-import mongoose from "mongoose";
 import userModel from "./db_model.js";
 
 import passport from "passport-jwt";
@@ -27,7 +25,7 @@ const setupPassport = (passport) => {
       //now we need to return the user back to update global state
       // therefore we use our db
 
-      //it also double checks the authorization. If i create a jwt from official
+      //it also double checks the authorization. If we create a jwt from official
       //website with same key..but with wrong 'id(jwt_payload.id)'
       //authorization fails with error 500
 
@@ -40,11 +38,12 @@ const setupPassport = (passport) => {
             console.log("passport user", user);
             //done syntax => done(err, user(if exists else false))
             return done(null, user);
-          } else {
-            //no errors but user also does'nt exist
-            console.log("else condition called in passport.js then method");
-            return done(null, false);
           }
+          //else is called when credentials are not valid,however
+          //since we are using checks in front-end; this will never actually be called
+          // else {
+          //   return done(null, false);
+          // }
         })
         .catch((err) => {
           done(err, false);

@@ -16,6 +16,31 @@ class Dashboard extends Component {
       .catch((err) => console.log("err in handleNextReq dashabord", err));
   };
 
+  componentDidMount() {
+    console.log("componentDidMount dashboard");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate dashboard");
+    if (this.props.isAuthenticated !== prevProps.isAuthenticated) {
+      this.props.history.push("/login");
+    }
+  }
+
+  // shouldComponentUpdate(checkProps) {
+  //   console.log(checkProps.isAuthenticated, checkProps.errors);
+  //   if (!checkProps.isAuthenticated) {
+  //     //call componentDidUpdate
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  componentWillUnmount() {
+    console.log("componentUnmounted dashboard");
+  }
+
   render() {
     if (!this.props.isAuthenticated) {
       //Redirect can only be used in render
@@ -40,6 +65,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authDetails.isAuthenticated,
     name: state.authDetails.user.name,
+    errors: state.errors,
   };
 };
 

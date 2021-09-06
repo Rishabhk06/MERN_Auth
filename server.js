@@ -66,3 +66,8 @@ app.get(
     });
   }
 );
+
+//delete all db entries
+// userModel.deleteMany({}).then((res) => {
+//   console.log("deleted all");
+// });

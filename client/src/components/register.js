@@ -39,6 +39,15 @@ class Register extends Component {
     this.props.clearErrors();
   }
 
+  componentDidUpdate(prevProps) {
+    //runs every time the component props update except for initial rendering
+    //receives the prevProps
+    if (this.props.authDetails.isAuthenticated) {
+      console.log("pushed to dash");
+      this.props.history.push("/dashboard");
+    }
+  }
+
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
