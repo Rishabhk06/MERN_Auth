@@ -22,10 +22,6 @@ const registerUser = (userData, history) => {
       .catch((err) => {
         //err.response.data returns the error obj that we created in validations
         //standard way to catch axios errors (refer to axios docs)
-        console.log(
-          "err.response.data in registerUser(authActions.js)",
-          err.response.data
-        );
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data,
@@ -103,7 +99,6 @@ const keepUserLoggedIn = () => {
 
         //passport automatically checks for token expiry
         //we just need to remove it from localstorage
-        console.log("token expired");
         store.dispatch(logoutUser());
 
         //send error as token expired
@@ -128,21 +123,20 @@ const clearErrors = () => {
 };
 
 const handleTokenExpiration = () => {
-  console.log("handleTokenExpiration called");
-  return function (dispatch) {
-    // this is to automatically logout the user on token expiry
-    //even w/o refreshing page
+  //to logout user if token expires even w/o refreshing page
+  if (localStorage.jwtToken) {
     setTimeout(() => {
-      console.log("token is now expired");
-      logoutUser();
-      // dispatch({
-      //   type: GET_ERRORS,
-      //   payload: {
-      //     tokenExpired: "Token Expired or Invalid. Please Login again",
-      //   },
-      // });
-    }, 5000);
-  };
+      console.log("token is now expired:");
+      store.dispatch(logoutUser());
+
+      store.dispatch({
+        type: GET_ERRORS,
+        payload: {
+          tokenExpired: "Token Expired or Invalid. Please Login again",
+        },
+      });
+    }, 30 * 1000);
+  }
 };
 
 export {
