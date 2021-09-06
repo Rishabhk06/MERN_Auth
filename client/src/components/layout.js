@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 
 import Dashboard from "./dashboard";
+import Page404 from "./404";
 import ProtectedRoute from "./protectedRoute";
 import {
   handleTokenExpiration,
@@ -34,6 +35,7 @@ function Layout() {
             <Route exact path="/register" component={Register}></Route>
             {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
             <Route exact path="/dashboard" component={Dashboard}></Route>
+            <Route component={Page404} />
           </div>
         </div>
       </BrowserRouter>
