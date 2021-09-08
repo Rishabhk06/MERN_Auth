@@ -2,7 +2,7 @@ import "./styles.css";
 import Login from "./login";
 import Register from "./register";
 import LandingPage from "./landing_page";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "../redux/store";
@@ -30,12 +30,14 @@ function Layout() {
           </div>
           <div className="flexbox-item2">
             <div className="top-bar">MERN Auth App</div>
-            <Route exact path="/" component={LandingPage}></Route>
-            <Route exact path="/login" component={Login}></Route>
-            <Route exact path="/register" component={Register}></Route>
-            {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
-            <Route exact path="/dashboard" component={Dashboard}></Route>
-            <Route component={Page404} />
+            <Switch>
+              <Route exact path="/" component={LandingPage}></Route>
+              <Route exact path="/login" component={Login}></Route>
+              <Route exact path="/register" component={Register}></Route>
+              {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
+              <Route exact path="/dashboard" component={Dashboard}></Route>
+              <Route component={Page404} />
+            </Switch>
           </div>
         </div>
       </BrowserRouter>
