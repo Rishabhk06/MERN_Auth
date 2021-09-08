@@ -124,8 +124,8 @@ const clearErrors = () => {
 
 const handleTokenExpiration = () => {
   //to logout user if token expires even w/o refreshing page
-  if (localStorage.jwtToken) {
-    setTimeout(() => {
+  setTimeout(() => {
+    if (localStorage.jwtToken) {
       console.log("token is now expired:");
       store.dispatch(logoutUser());
 
@@ -135,8 +135,8 @@ const handleTokenExpiration = () => {
           tokenExpired: "Token Expired or Invalid. Please Login again",
         },
       });
-    }, 30 * 1000);
-  }
+    }
+  }, 30 * 1000);
 };
 
 export {

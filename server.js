@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import userModel from "./db_model.js";
 import registerRouter from "./routes/apiRoutes/register.js";
 import loginRouter from "./routes/apiRoutes/login.js";
 import passport from "passport";
@@ -11,7 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.listen(5000, console.log("Server started at port 5000"));
+const port = process.env.PORT || 5000;
+
+app.listen(port, console.log(`Server started at port ${port}`));
 
 //Setting Mongo connection
 const atlasURL =
