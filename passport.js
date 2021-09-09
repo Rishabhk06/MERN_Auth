@@ -1,16 +1,21 @@
 import userModel from "./db_model.js";
+import genKeyPair from "./generateKeys.js";
 
 import passport from "passport-jwt";
 const jwtStrategy = passport.Strategy;
 const extractJWT = passport.ExtractJwt;
 
-const options = {
-  jwtFromRequest: extractJWT.fromAuthHeaderWithScheme("JWT"),
-  secretOrKey: "secret",
-};
-
 // The JWT payload received as header from login endpoint is passed into the verify callback
-const setupPassport = (passport) => {
+const setupPassport = async (passport) => {
+  //extract publicKey from genKeyPair obj
+  const { publicKey } = await genKeyPair();
+
+  const options = {
+    jwtFromRequest: extractJWT.fromAuthHeaderWithScheme("JWT"),
+    secretOrKey: publicKey,
+    algorithm: ["RS256"],
+  };
+
   passport.use(
     //this callback func is called only when we use passport.authenticate() anywhere
     new jwtStrategy(options, function (jwt_payload, done) {
