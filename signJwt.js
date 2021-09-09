@@ -2,15 +2,20 @@
 //both login and register routes and aviod duplicacy
 
 import jwt from "jsonwebtoken";
+import genKeyPair from "./generateKeys.js";
 
-const signJwtFunc = (jwt_payload) => {
+const signJwtFunc = async (jwt_payload) => {
+  //extract privateKey from genKeyPair obj
+  const { privateKey } = await genKeyPair();
+
   //Sign token
   return new Promise((resolve, reject) => {
     jwt.sign(
       jwt_payload,
-      "secret",
+      privateKey,
       {
         expiresIn: 30, // 30sec
+        algorithm: "RS256",
       },
       (err, token) => {
         if (err) {
