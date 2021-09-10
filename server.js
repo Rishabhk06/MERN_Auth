@@ -3,16 +3,13 @@ import mongoose from "mongoose";
 import registerRouter from "./routes/apiRoutes/register.js";
 import loginRouter from "./routes/apiRoutes/login.js";
 import passport from "passport";
+import path from "path";
 
 const app = express();
 
 //setting middlewares to get req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-const port = process.env.PORT || 5000;
-
-app.listen(port, console.log(`Server started at port ${port}`));
 
 //Setting Mongo connection
 const atlasURL =
@@ -73,4 +70,16 @@ app.get(
 //   console.log("deleted all");
 // });
 
-console.log(process.env.NODE_ENV);
+// Setup heroku
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => console.log(`Server started at port ${port}`));
