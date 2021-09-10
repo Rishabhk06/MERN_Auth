@@ -25,7 +25,6 @@ function Layout() {
       <BrowserRouter>
         <div className="flexbox-container">
           <div className="flexbox-item1">
-            Flexbox Item1
             <h1 className="cover-heading">PASSPORT-JWT AUTHORIZATION</h1>
           </div>
           <div className="flexbox-item2">

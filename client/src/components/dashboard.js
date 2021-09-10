@@ -17,6 +17,7 @@ class Dashboard extends Component {
   };
 
   componentDidUpdate(prevProps) {
+    //when token expires, we set isauth to false; hence push to login
     if (!prevProps.isAuthenticated) {
       this.props.history.push("/login");
     }

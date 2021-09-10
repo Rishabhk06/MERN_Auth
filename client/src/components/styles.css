@@ -37,12 +37,6 @@
   text-indent: 30px;
 }
 
-.input-field-icon {
-  position: "absolute";
-  height: "5%";
-  color: grey;
-}
-
 .input-field.error {
   border-bottom: 2px solid red;
 }
@@ -120,8 +114,6 @@
 }
 
 .marquee-box {
-  /* default width: 100%; */
-  /* height: max-content; */
   background: black;
   color: white;
   overflow: hidden;
@@ -159,8 +151,4 @@
     /* 8li elem * 25%width = 200% */
     transform: translate(-200%, 0);
   }
-}
-
-.duplicate {
-  background: teal;
 }
