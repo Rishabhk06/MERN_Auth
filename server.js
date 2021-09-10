@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import registerRouter from "./routes/apiRoutes/register.js";
 import loginRouter from "./routes/apiRoutes/login.js";
 import passport from "passport";
+import path from "path";
 
 const app = express();
 
@@ -69,12 +70,12 @@ app.get(
 //   console.log("deleted all");
 // });
 
-//Setup heroku
+// Setup heroku
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static("./client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile("client/build/index.html ");
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
