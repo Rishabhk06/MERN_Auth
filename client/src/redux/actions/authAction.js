@@ -2,12 +2,11 @@
 import axios from "axios";
 import { SET_CURRENT_USER, GET_ERRORS } from "./actionTypes";
 import setAuthToken from "../../setAuthToken";
-import jwt_decode from "jwt-decode";
 import store from "../store";
 import handleJwt from "../../handleJwt.js";
 
 //Register user axios req
-const registerUser = (userData, history) => {
+const registerUser = (userData) => {
   //here thunk comes into play..ideally we could have only returned an action
   //from this actionCreator but with thunk we can return another function
   //which can handle async programming & further dispatch an action
@@ -74,10 +73,6 @@ const keepUserLoggedIn = () => {
     const token = localStorage.jwtToken;
     // Set token to Auth header with each req
     setAuthToken(token);
-
-    // Decode token to get user data
-    const decoded = jwt_decode(token);
-    console.log(decoded.exp, Math.round(Date.now() / 1000));
 
     //check if the user is already logged in
     axios

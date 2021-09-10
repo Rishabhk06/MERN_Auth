@@ -40,13 +40,14 @@ const setupPassport = async (passport) => {
             //done syntax => done(err, user(if exists else false))
             return done(null, user);
           }
-          //else is called when id does'nt match; ie no such user exists
+          //else is called when jwt is verified but id does'nt match; ie no such user exists
           else {
             console.log("else in passport");
             return done(null, false);
           }
         })
         .catch((err) => {
+          //server exceptions
           done(err, false);
           console.log("catch err in passport.js", err);
         });

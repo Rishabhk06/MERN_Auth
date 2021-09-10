@@ -72,3 +72,5 @@ app.get(
 // userModel.deleteMany({}).then((res) => {
 //   console.log("deleted all");
 // });
+
+console.log(process.env.NODE_ENV);

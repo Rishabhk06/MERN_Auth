@@ -14,7 +14,6 @@ import {
 } from "react-icons/fa";
 
 class Register extends Component {
-  s;
   constructor(props) {
     super(props);
     this.state = {
