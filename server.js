@@ -59,19 +59,17 @@ app.get(
 
 // Setup heroku
 if (process.env.NODE_ENV === "production") {
+  // if no above routes is matched; send frotend file..
+  // therefore added 'dashboard' route at the bottom
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "client", "build")));
 
-  app.get("/*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-  app.get("/dashboard", (req, res) => {
+  app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
 const port = process.env.PORT || 5000;
-
 app.listen(port, () => console.log(`Server started at port ${port}`));
 
 //Route to dashboard
