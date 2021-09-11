@@ -59,7 +59,7 @@ app.get(
 
 // Setup heroku
 if (process.env.NODE_ENV === "production") {
-  // if no above routes is matched; send frotend file..
+  // if no above routes is matched; send index.html file compiled after build..
   // therefore added 'dashboard' route at the bottom
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "client", "build")));
