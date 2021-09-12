@@ -15,7 +15,7 @@ const handleJwt = (dispatch, res) => {
 
   //axios req to dashboard
   axios
-    .get("/dashboard")
+    .get("/api/dashboard")
     .then((res) => {
       //return an action and further redirect using Redirect or
       //history.push from ComponentDidUpdate which checks global state

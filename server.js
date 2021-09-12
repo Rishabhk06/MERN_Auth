@@ -54,7 +54,7 @@ app.get(
 
 //Route to dashboard
 app.get(
-  "/dashboard",
+  "/api/dashboard",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.status(200).json({
