@@ -76,7 +76,7 @@ const keepUserLoggedIn = () => {
 
     //check if the user is already logged in
     axios
-      .get("/dashboard")
+      .get("/api/dashboard")
       .then((res) => {
         //keep user set as current user in reducer
 
