@@ -41,6 +41,7 @@ app.use(passport.initialize());
 
 //
 import setupPassport from "./passport.js";
+import userModel from "./db_model.js";
 setupPassport(passport);
 
 //dashboard further req check
@@ -83,3 +84,15 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server started at port ${port}`));
+
+// userModel
+//   .create({
+//     name: "abc",
+//     email: "abc@abc.abc",
+//     password: "abc",
+//   })
+//   .then(async (user) => {
+//     console.log("user created:", user);
+//   });
+
+// userModel.find({}).then((users) => console.log(users));

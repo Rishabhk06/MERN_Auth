@@ -6,6 +6,7 @@ const jwtStrategy = passport.Strategy;
 const extractJWT = passport.ExtractJwt;
 
 // The JWT payload received as header from login endpoint is passed into the verify callback
+// Private Key: sign JWT; Public Key: Verify JWT
 const setupPassport = async (passport) => {
   //extract publicKey from genKeyPair obj
   const { publicKey } = await genKeyPair();

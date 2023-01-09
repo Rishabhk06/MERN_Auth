@@ -6,6 +6,7 @@ import genKeyPair from "./generateKeys.js";
 
 const signJwtFunc = async (jwt_payload) => {
   //extract privateKey from genKeyPair obj
+  // Private Key: sign JWT; Public Key: Verify JWT
   const { privateKey } = await genKeyPair();
 
   //Sign token
