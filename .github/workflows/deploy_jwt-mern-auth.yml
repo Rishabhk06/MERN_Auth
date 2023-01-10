@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'jwt-mern-auth'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CA67A3B1A7624B279C02C7C17C174647 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_01FEDFF424AB44189A6A3FC3CD0E07B9 }}
           package: .
