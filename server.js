@@ -10,9 +10,6 @@ const app = express();
 //setting middlewares to get req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.listen(5000, console.log("Server started at port 5000"));
-
 //Setting Mongo connection
 const atlasURL =
   "mongodb+srv://rishabh:rishabh@users.xclt4.mongodb.net/users?retryWrites=true&w=majority";
@@ -66,3 +63,17 @@ app.get(
     });
   }
 );
+
+// Setup heroku
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => console.log(`Server started at port ${port}`));
