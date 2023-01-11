@@ -9,12 +9,11 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "postinstall": "npm install --prefix client && npm run build --prefix client --force"
+    "postinstall": "npm install --prefix client && npm run build --prefix client"
   },
   "author": "Rishabh",
   "license": "ISC",
   "dependencies": {
-    "@testing-library/react": "^13.4.0",
     "axios": "^0.21.1",
     "concurrently": "^6.2.0",
     "express": "^4.17.1",
