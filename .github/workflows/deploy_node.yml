@@ -25,4 +25,4 @@ jobs:
 
       # POSTBUILD SCRIPT
       - name: Create build for client
-        run: npm install --prefix client && npm run build --prefix client
+        run: npm install --prefix client
